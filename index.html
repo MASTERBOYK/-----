@@ -252,4 +252,222 @@ function clearAll() {
 </script>
 
 </body>
+</html>    padding:5px 10px; margin-top:20px;
+    background:#ff0000; color:black; border:none;
+    border-radius:5px; cursor:pointer;
+    font-size:16px; font-weight:bold;
+    box-shadow:0 0 12px red;
+    transition:0.3s;
+}
+button:hover { box-shadow:0 0 25px #ff3333; }
+
+/* LOADING BAR */
+#loadingBarBox {
+    display:none;
+    width:300px;
+    margin:20px auto;
+    padding:5px;
+    background:#111;
+    border:2px solid red;
+    border-radius:5px;
+    box-shadow:0 0 20px red;
+}
+#loadingBarFill {
+    width:0%;
+    height:20px;
+    background:red;
+    box-shadow:0 0 15px red;
+    transition:width 0.2s;
+}
+
+/* IP INFO BOX */
+#ip-info {
+    display:none;
+    margin-top:30px;
+    padding:20px;
+    background:rgba(0,0,0,0.8);
+    border:1px solid red; border-radius:10px;
+    box-shadow:0 0 25px red;
+    color:white;
+}
+
+/* MAP */
+#map {
+    height:300px; width:100%;
+    margin-top:6px;
+    border:2px solid red;
+    box-shadow:0 0 25px red;
+    border-radius:10px;
+}
+
+#footer { margin-top:40px; color:#ff3333; font-size:16px; text-shadow:0 0 10px red; }
+
+#whatsapp-btn {
+    background:black; color:white;
+    margin-top:40px; padding:12px 25px;
+    font-size:12px; border-radius:80px;
+    font-weight:bold; box-shadow:0 0 40px blue;
+    text-decoration:none; display:inline-block;
+    transition:0.3s;
+}
+#whatsapp-btn:hover { background:#cc0000; box-shadow:0 0 30px red; }
+
+</style>
+</head>
+<body>
+
+<!-- MATRIX REMOVED -->
+
+<!-- BACKGROUND MP3 AUDIO -->
+<audio id="bgMusic" autoplay loop>
+  <source src="https://cdn.pixabay.com/audio/2024/03/26/audio_e57cd4fbb8.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</source></audio>
+
+<!-- SOUND EFFECTS -->
+<audio id="alertBeep"><source src="https://cdn.pixabay.com/audio/2021/08/04/audio_303c83175e.mp3" type="audio/mpeg"></source></audio>
+<audio id="typingSound"><source src="https://cdn.pixabay.com/audio/2022/03/10/audio_f8c9e8a12f.mp3" type="audio/mpeg"></source></audio>
+<audio id="glitchSound"><source src="https://cdn.pixabay.com/audio/2023/03/30/audio_8c8bdafad6.mp3" type="audio/mpeg"></source></audio>
+<audio id="accessGranted"><source src="https://cdn.pixabay.com/audio/2022/03/15/audio_c42fb0c314.mp3" type="audio/mpeg"></source></audio>
+<audio id="breachAlarm"><source src="https://cdn.pixabay.com/audio/2022/03/10/audio_5c49fa42c6.mp3" type="audio/mpeg"></source></audio>
+
+<h1>ᥬ🄳𝗔𝗥𝗞️️🅞🅕🄼𝗔𝗦𝗧𝗘𝗥᭄ ➥☠︎︎☞𝗜𝗣 𝗧𝗥𝗔𝗖𝗞𝗘𝗥☜☠︎︎</h1>
+
+<div id="ip-input">
+    <input type="text" id="ipAddress" placeholder="ENTER IP e.g. 8.8.8.8">
+    <br>
+    <button onclick="startTrack()">TRACK IP</button>
+    <button onclick="getMyIP()">LOOKUP MY IP</button>
+    <button onclick="clearAll()">CLEAR</button>
+</div>
+
+<!-- Loading Bar -->
+<div id="loadingBarBox">
+    <div id="loadingBarFill"></div>
+</div>
+
+<!-- INFO -->
+<div id="ip-info">
+<h2>IP INFORMATION BY DAR</h2>
+<p><strong>IP:</strong> <span id="ip"></span></p>
+<p><strong>City:</strong> <span id="city"></span></p>
+<p><strong>Region:</strong> <span id="region"></span></p>
+<p><strong>Country:</strong> <span id="country"></span></p>
+<p><strong>Location:</strong> <span id="loc"></span></p>
+<p><strong>Organization:</strong> <span id="org"></span></p>
+<p><strong>Postal Code:</strong> <span id="postal"></span></p>
+<p><strong>Timezone:</strong> <span id="timezone"></span></p>
+</div>
+
+<div id="map"></div>
+
+<a id="whatsapp-btn" href="https://api.whatsapp.com/send?phone=923268801224&text=HI_MASTER_I_AM_YOUR_COSTOMER" target="_blank">
+&#128308; 😈𝗢𝗪𝗡𝗘𝗥 𝗖𝗢𝗡𝗧𝗔𝗖𝗧👻
+</a>
+
+<a id="whatsapp-btn" href="https://whatsapp.com/channel/0029VbAsHR3EquiQSTbSZw2z" target="_blank">
+&#128308; 🌐𝗢𝗧𝗛𝗘𝗥 𝗛𝗔𝗖𝗞𝗜𝗡𝗚 𝗧𝗢𝗢𝗟𝗦🛠️
+</a>
+
+<div id="footer">𝟮𝟬𝟮𝟱 | 𝗜𝗣 𝗧𝗥𝗔𝗖𝗞𝗘𝗥 𝗧𝗢𝗢𝗟 | 𝗗𝗔𝗥𝗞-𝗠𝗔𝗦𝗧𝗘𝗥</div>
+
+<script>
+
+/* MAP ONLY (Matrix code removed!) */
+let map = L.map('map').setView([20,0],2);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
+let marker;
+
+/* SHOW INFO + SOUNDS */
+function showInfo(data) {
+    document.getElementById('typingSound').play();
+    document.getElementById('glitchSound').play();
+    document.getElementById('accessGranted').play();
+
+    document.getElementById('ip').textContent = data.ip;
+    document.getElementById('city').textContent = data.city;
+    document.getElementById('region').textContent = data.region;
+    document.getElementById('country').textContent = data.country;
+    document.getElementById('loc').textContent = data.loc;
+    document.getElementById('org').textContent = data.org;
+    document.getElementById('postal').textContent = data.postal;
+    document.getElementById('timezone').textContent = data.timezone;
+
+    document.getElementById('ip-info').style.display = 'block';
+
+    const coords = data.loc.split(",");
+    const lat = parseFloat(coords[0]);
+    const lon = parseFloat(coords[1]);
+
+    if(marker) map.removeLayer(marker);
+    marker = L.marker([lat,lon]).addTo(map);
+    map.flyTo([lat,lon],12,{animate:true,duration:3});
+}
+
+/* TRACK BUTTON */
+function startTrack() {
+    const ipAddress = document.getElementById('ipAddress').value;
+    if (!ipAddress) return alert('PLEAS ENTER AN IP ADDRESS.');
+
+    document.getElementById('alertBeep').play();
+
+    document.getElementById('loadingBarBox').style.display = 'block';
+    document.getElementById('loadingBarFill').style.width = "0%";
+
+    let fill = 0;
+    let loadInterval = setInterval(() => {
+        fill += 10;
+        document.getElementById('loadingBarFill').style.width = fill + "%";
+    }, 200);
+
+    setTimeout(() => {
+        clearInterval(loadInterval);
+        fetch(`https://ipinfo.io/${ipAddress}/json`)
+        .then(res=>res.json())
+        .then(data => {
+            document.getElementById('loadingBarBox').style.display = 'none';
+            showInfo(data);
+        });
+    }, 2000);
+}
+
+/* AUTO IP DETECT */
+function getMyIP() {
+    document.getElementById('alertBeep').play();
+
+    document.getElementById('loadingBarBox').style.display='block';
+    document.getElementById('loadingBarFill').style.width="0%";
+
+    let fill = 0;
+    let timer = setInterval(()=>{
+        fill+=10;
+        document.getElementById('loadingBarFill').style.width=fill+"%";
+    },200);
+
+    setTimeout(()=>{
+        clearInterval(timer);
+        fetch("https://api.ipify.org?format=json")
+        .then(res=>res.json())
+        .then(my=>{
+            fetch(`https://ipinfo.io/${my.ip}/json`)
+            .then(res=>res.json())
+            .then(data=>{
+                document.getElementById('loadingBarBox').style.display='none';
+                showInfo(data);
+            });
+        });
+    },2000);
+}
+
+/* CLEAR */
+function clearAll() {
+    document.getElementById("ipAddress").value="";
+    document.getElementById("ip-info").style.display="none";
+    if(marker) map.removeLayer(marker);
+    map.setView([20,0],2);
+}
+
+</script>
+
+</body>
             </html>
